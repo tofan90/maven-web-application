@@ -11,7 +11,7 @@
 <body>
 <h1 align="center">Welcome to r s infra. mumbai ,India </h1>
 <h1 align="center">  A company for next gen</h1> 
-<h1 align="center"> Mithun Technologies- Very Good Training center for DevOps with AWS in Bangalore India and also for Job Assitance Job Support also...Teaching Real Time scnerios</h1>
+<h1 align="center"> tofan polai mansarovar navi mumbai india</h1>
 <hr>
 <br>
 	<h1><h3> Server Side IP Address </h3><br>
