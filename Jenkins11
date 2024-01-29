@@ -15,11 +15,12 @@ sh "${mavenHome}/bin/mvn sonar:sonar"
 stage('UploadArtifactsIntoNexus'){
 sh "${mavenHome}/bin/mvn deploy"
 }
+/*
 stage('DeployApplicationtoTomcatserver'){
 sshagent(['db702871-b4ae-474b-a82b-679bd1657386']) {
     sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@43.205.216.5:/opt/apache-tomcat-9.0.83/webapps/"
 }
-}
+}*/
 stage('sendEmailNotification'){
 emailext body: '''Buildover
 
