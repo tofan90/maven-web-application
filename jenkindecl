@@ -1,0 +1,67 @@
+
+pipeline{
+agent any
+tools{
+maven 'maven3.8.4'}
+triggers {
+ pollSCM('* * * * *')
+}
+options {
+  buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')
+}
+
+ stages{
+   stage('checkoutCode'){
+     steps{
+         git branch: 'development', credentialsId: '72dbf152-a08c-4d81-9d07-28858251ad57', url: 'https://github.com/tofan90/maven-web-application.git'
+ }        
+}    
+    stage('Build'){
+     steps{
+     sh "mvn clean package"
+      }
+      }
+      stage('SonarQubeReport'){
+     steps{
+     sh "mvn sonar:sonar"
+      }
+      }
+      stage('UploadArtifactsIntoNexus'){
+     steps{
+     sh "mvn deploy"
+      }
+      }
+      stage('DeployApplicationtoTomcatserver'){
+     steps{
+     sshagent(['db702871-b4ae-474b-a82b-679bd1657386']) {
+    sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@43.205.216.5:/opt/apache-tomcat-9.0.83/webapps/"
+      }
+      }
+      }
+    }
+    post {
+  always {
+emailext body: '''buildover
+
+regards
+r s infra''', subject: 'buildover', to: 'tofan.polai299@gmail.com'
+    // One or more steps need to be included within each condition's block.
+  }
+  success {
+emailext body: '''buildover
+
+regards
+r s infra''', subject: 'buildover', to: 'tofan.polai299@gmail.com'
+    // One or more steps need to be included within each condition's block.
+  }
+  failure {
+emailext body: '''buildover
+
+regards
+r s infra''', subject: 'buildover', to: 'tofan.polai299@gmail.com'
+    // One or more steps need to be included within each condition's block.
+  }
+}
+
+    
+ }
